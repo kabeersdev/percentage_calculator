@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Percentage Calculator — Free Online Calculator</title>
+  <meta name="description" content="Free online percentage calculator. Calculate percentages, discounts, VAT, and sales tax instantly. No signup required.">
+  <meta property="og:title" content="Percentage Calculator — Free Online Calculator">
+  <meta property="og:description" content="Free online percentage calculator. Calculate percentages, discounts, VAT, and sales tax instantly.">
+  <meta property="og:url" content="https://kabeersdev.github.io/percentage_calculator/">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kabeersdev.github.io/percentage_calculator/">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">% Calculator</a>
+  <div class="nav-links">
+    <a href="index.html">Calculator</a>
+    <a href="blog.html">Blog</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="hero">
+    <h1>Percentage Calculator</h1>
+    <p>Free online tool to calculate percentages, discounts, VAT, and sales tax — instantly.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('pct',this)">Percentage</button>
+    <button class="tab" onclick="switchTab('discount',this)">Discount</button>
+    <button class="tab" onclick="switchTab('vat',this)">VAT</button>
+    <button class="tab" onclick="switchTab('tax',this)">Sales tax</button>
+  </div>
+
+  <!-- PERCENTAGE -->
+  <div class="page active" id="page-pct">
+    <div class="card">
+      <div class="card-title">Find a percentage</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="color:var(--text-2)">What is</span>
+        <input type="number" id="c1-pct" placeholder="%" style="width:90px" oninput="calc1()">
+        <span style="color:var(--text-2)">% of</span>
+        <input type="number" id="c1-num" placeholder="number" style="width:120px" oninput="calc1()">
+        <span style="color:var(--text-2)">?</span>
+      </div>
+      <div id="c1-result" class="result" style="display:none">
+        <span class="result-label" id="c1-label"></span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="result-value" id="c1-val"></span>
+          <button class="copy-btn" onclick="copyEl('c1-val')" title="Copy">⎘</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Find the percentage</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <input type="number" id="c2-part" placeholder="part" style="width:120px" oninput="calc2()">
+        <span style="color:var(--text-2)">is what % of</span>
+        <input type="number" id="c2-whole" placeholder="whole" style="width:120px" oninput="calc2()">
+        <span style="color:var(--text-2)">?</span>
+      </div>
+      <div id="c2-result" class="result success" style="display:none">
+        <span class="result-label" id="c2-label"></span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="result-value" id="c2-val"></span>
+          <button class="copy-btn" onclick="copyEl('c2-val')" title="Copy">⎘</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Percentage change</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="color:var(--text-2)">From</span>
+        <input type="number" id="c3-from" placeholder="old value" style="width:120px" oninput="calc3()">
+        <span style="color:var(--text-2)">to</span>
+        <input type="number" id="c3-to" placeholder="new value" style="width:120px" oninput="calc3()">
+      </div>
+      <div id="c3-result" class="result" style="display:none">
+        <span class="result-label" id="c3-label"></span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="result-value" id="c3-val"></span>
+          <button class="copy-btn" onclick="copyEl('c3-val')" title="Copy">⎘</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCOUNT -->
+  <div class="page" id="page-discount">
+    <div class="card">
+      <div class="card-title">Discount calculator</div>
+      <div class="field"><label>Original price</label><input type="number" id="d-orig" placeholder="e.g. 100" oninput="calcDiscount()"></div>
+      <div class="field"><label>Discount percentage (%)</label><input type="number" id="d-pct" placeholder="e.g. 20" oninput="calcDiscount()"></div>
+      <div id="d-results" style="display:none">
+        <div class="results-grid">
+          <div class="stat"><div class="stat-label">Discount amount</div><div class="stat-value" id="d-amount"></div></div>
+          <div class="stat"><div class="stat-label">Final price</div><div class="stat-value" id="d-final"></div></div>
+          <div class="stat"><div class="stat-label">You save</div><div class="stat-value" id="d-save" style="color:var(--success)"></div></div>
+          <div class="stat"><div class="stat-label">You pay</div><div class="stat-value" id="d-pay"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VAT -->
+  <div class="page" id="page-vat">
+    <div class="card">
+      <div class="card-title">VAT calculator</div>
+      <div class="field">
+        <label>Country / region</label>
+        <select id="vat-country" onchange="setVatRate()">
+          <option value="">Custom rate</option>
+          <option value="20">🇬🇧 UK — 20%</option>
+          <option value="20">🇫🇷 France — 20%</option>
+          <option value="19">🇩🇪 Germany — 19%</option>
+          <option value="22">🇮🇹 Italy — 22%</option>
+          <option value="21">🇪🇸 Spain — 21%</option>
+          <option value="23">🇵🇱 Poland — 23%</option>
+          <option value="25">🇸🇪 Sweden — 25%</option>
+          <option value="25">🇩🇰 Denmark — 25%</option>
+          <option value="25.5">🇫🇮 Finland — 25.5%</option>
+          <option value="23">🇮🇪 Ireland — 23%</option>
+          <option value="21">🇳🇱 Netherlands — 21%</option>
+          <option value="21">🇧🇪 Belgium — 21%</option>
+          <option value="24">🇬🇷 Greece — 24%</option>
+          <option value="20">🇦🇹 Austria — 20%</option>
+          <option value="5">🇦🇪 UAE — 5%</option>
+          <option value="18">🇮🇳 India GST — 18%</option>
+          <option value="10">🇦🇺 Australia GST — 10%</option>
+          <option value="15">🇳🇿 New Zealand GST — 15%</option>
+        </select>
+      </div>
+      <div class="field"><label>VAT rate (%)</label><input type="number" id="vat-rate" placeholder="e.g. 20" oninput="calcVat()"></div>
+      <div class="field"><label>Net price (before VAT)</label><input type="number" id="vat-net" placeholder="e.g. 100" oninput="calcVat('net')"></div>
+      <div class="field"><label>Gross price (after VAT)</label><input type="number" id="vat-gross" placeholder="e.g. 120" oninput="calcVat('gross')"></div>
+      <div id="vat-results" style="display:none">
+        <div class="results-grid">
+          <div class="stat"><div class="stat-label">Net price</div><div class="stat-value" id="vat-net-out"></div></div>
+          <div class="stat"><div class="stat-label">VAT amount</div><div class="stat-value" id="vat-amount"></div></div>
+          <div class="stat" style="grid-column:1/-1"><div class="stat-label">Gross price</div><div class="stat-value" id="vat-gross-out"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALES TAX -->
+  <div class="page" id="page-tax">
+    <div class="card">
+      <div class="card-title">Sales tax calculator</div>
+      <div class="field">
+        <label>State / region</label>
+        <select id="tax-state" onchange="setTaxRate()">
+          <option value="">Custom rate</option>
+          <option value="0">Alaska — 0%</option>
+          <option value="5.6">Arizona — 5.6%</option>
+          <option value="6.5">Arkansas — 6.5%</option>
+          <option value="7.25">California — 7.25%</option>
+          <option value="2.9">Colorado — 2.9%</option>
+          <option value="6.35">Connecticut — 6.35%</option>
+          <option value="0">Delaware — 0%</option>
+          <option value="6">Florida — 6%</option>
+          <option value="4">Georgia — 4%</option>
+          <option value="6.25">Illinois — 6.25%</option>
+          <option value="7">Indiana — 7%</option>
+          <option value="6">Iowa — 6%</option>
+          <option value="6.5">Kansas — 6.5%</option>
+          <option value="6">Kentucky — 6%</option>
+          <option value="4.45">Louisiana — 4.45%</option>
+          <option value="6">Maryland — 6%</option>
+          <option value="6.25">Massachusetts — 6.25%</option>
+          <option value="6">Michigan — 6%</option>
+          <option value="6.875">Minnesota — 6.875%</option>
+          <option value="7">Mississippi — 7%</option>
+          <option value="4.225">Missouri — 4.225%</option>
+          <option value="0">Montana — 0%</option>
+          <option value="5.5">Nebraska — 5.5%</option>
+          <option value="6.85">Nevada — 6.85%</option>
+          <option value="0">New Hampshire — 0%</option>
+          <option value="6.625">New Jersey — 6.625%</option>
+          <option value="4">New York — 4%</option>
+          <option value="4.75">North Carolina — 4.75%</option>
+          <option value="5.75">Ohio — 5.75%</option>
+          <option value="4.5">Oklahoma — 4.5%</option>
+          <option value="0">Oregon — 0%</option>
+          <option value="6">Pennsylvania — 6%</option>
+          <option value="7">Rhode Island — 7%</option>
+          <option value="6">South Carolina — 6%</option>
+          <option value="7">Tennessee — 7%</option>
+          <option value="6.25">Texas — 6.25%</option>
+          <option value="6.5">Washington — 6.5%</option>
+          <option value="5">Wisconsin — 5%</option>
+        </select>
+      </div>
+      <div class="field"><label>Sales tax rate (%)</label><input type="number" id="tax-rate" placeholder="e.g. 8" oninput="calcTax()"></div>
+      <div class="field"><label>Pre-tax price</label><input type="number" id="tax-pre" placeholder="e.g. 100" oninput="calcTax('pre')"></div>
+      <div class="field"><label>Total price (tax included)</label><input type="number" id="tax-total" placeholder="e.g. 108" oninput="calcTax('total')"></div>
+      <div id="tax-results" style="display:none">
+        <div class="results-grid">
+          <div class="stat"><div class="stat-label">Pre-tax price</div><div class="stat-value" id="tax-pre-out"></div></div>
+          <div class="stat"><div class="stat-label">Tax amount</div><div class="stat-value" id="tax-amount"></div></div>
+          <div class="stat" style="grid-column:1/-1"><div class="stat-label">Total price</div><div class="stat-value" id="tax-total-out"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('page-' + name).classList.add('active');
+}
+function fmt(n) { return parseFloat(n.toFixed(4)).toLocaleString(undefined, {maximumFractionDigits:2}); }
+function fmtC(n) { return '$' + fmt(n); }
+function copyEl(id) {
+  navigator.clipboard.writeText(document.getElementById(id).textContent).catch(()=>{});
+  showToast('Copied!');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+function calc1() {
+  const p = parseFloat(document.getElementById('c1-pct').value);
+  const n = parseFloat(document.getElementById('c1-num').value);
+  const r = document.getElementById('c1-result');
+  if (!isNaN(p) && !isNaN(n)) {
+    document.getElementById('c1-val').textContent = fmt(p/100*n);
+    document.getElementById('c1-label').textContent = p + '% of ' + fmt(n) + ' =';
+    r.style.display='flex'; r.className='result';
+  } else r.style.display='none';
+}
+function calc2() {
+  const part = parseFloat(document.getElementById('c2-part').value);
+  const whole = parseFloat(document.getElementById('c2-whole').value);
+  const r = document.getElementById('c2-result');
+  if (!isNaN(part) && !isNaN(whole) && whole!==0) {
+    document.getElementById('c2-val').textContent = fmt(part/whole*100) + '%';
+    document.getElementById('c2-label').textContent = fmt(part) + ' is';
+    r.style.display='flex'; r.className='result success';
+  } else r.style.display='none';
+}
+function calc3() {
+  const from = parseFloat(document.getElementById('c3-from').value);
+  const to = parseFloat(document.getElementById('c3-to').value);
+  const r = document.getElementById('c3-result');
+  if (!isNaN(from) && !isNaN(to) && from!==0) {
+    const ch = (to-from)/Math.abs(from)*100;
+    document.getElementById('c3-val').textContent = (ch>=0?'+':'') + fmt(ch) + '%';
+    document.getElementById('c3-label').textContent = ch>=0 ? '↑ increase' : '↓ decrease';
+    r.style.display='flex'; r.className='result ' + (ch>=0?'success':'warning');
+  } else r.style.display='none';
+}
+function calcDiscount() {
+  const orig = parseFloat(document.getElementById('d-orig').value);
+  const pct = parseFloat(document.getElementById('d-pct').value);
+  const r = document.getElementById('d-results');
+  if (!isNaN(orig) && !isNaN(pct)) {
+    const disc = orig*pct/100;
+    document.getElementById('d-amount').textContent = fmtC(disc);
+    document.getElementById('d-final').textContent = fmtC(orig-disc);
+    document.getElementById('d-save').textContent = fmtC(disc);
+    document.getElementById('d-pay').textContent = fmt(100-pct) + '%';
+    r.style.display='block';
+  } else r.style.display='none';
+}
+function setVatRate() {
+  const v = document.getElementById('vat-country').value;
+  if (v) { document.getElementById('vat-rate').value = v; calcVat(); }
+}
+function calcVat(src) {
+  const rate = parseFloat(document.getElementById('vat-rate').value);
+  const net = parseFloat(document.getElementById('vat-net').value);
+  const gross = parseFloat(document.getElementById('vat-gross').value);
+  const r = document.getElementById('vat-results');
+  if (isNaN(rate)) { r.style.display='none'; return; }
+  let n, g, vat;
+  if (src==='net' && !isNaN(net)) {
+    n=net; vat=net*rate/100; g=net+vat;
+    document.getElementById('vat-gross').value = parseFloat(g.toFixed(2));
+  } else if (src==='gross' && !isNaN(gross)) {
+    n=gross/(1+rate/100); vat=gross-n; g=gross;
+    document.getElementById('vat-net').value = parseFloat(n.toFixed(2));
+  } else if (!isNaN(net)) { n=net; vat=net*rate/100; g=net+vat; }
+  else { r.style.display='none'; return; }
+  document.getElementById('vat-net-out').textContent = fmtC(n);
+  document.getElementById('vat-amount').textContent = fmtC(vat);
+  document.getElementById('vat-gross-out').textContent = fmtC(g);
+  r.style.display='block';
+}
+function setTaxRate() {
+  const v = document.getElementById('tax-state').value;
+  if (v!=='') { document.getElementById('tax-rate').value = v; calcTax(); }
+}
+function calcTax(src) {
+  const rate = parseFloat(document.getElementById('tax-rate').value);
+  const pre = parseFloat(document.getElementById('tax-pre').value);
+  const total = parseFloat(document.getElementById('tax-total').value);
+  const r = document.getElementById('tax-results');
+  if (isNaN(rate)) { r.style.display='none'; return; }
+  let p, t, tax;
+  if (src==='pre' && !isNaN(pre)) {
+    p=pre; tax=pre*rate/100; t=pre+tax;
+    document.getElementById('tax-total').value = parseFloat(t.toFixed(2));
+  } else if (src==='total' && !isNaN(total)) {
+    p=total/(1+rate/100); tax=total-p; t=total;
+    document.getElementById('tax-pre').value = parseFloat(p.toFixed(2));
+  } else if (!isNaN(pre)) { p=pre; tax=pre*rate/100; t=pre+tax; }
+  else { r.style.display='none'; return; }
+  document.getElementById('tax-pre-out').textContent = fmtC(p);
+  document.getElementById('tax-amount').textContent = fmtC(tax);
+  document.getElementById('tax-total-out').textContent = fmtC(t);
+  r.style.display='block';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="meta-title">Post — Percentage Calculator</title>
+  <meta name="description" id="meta-desc" content="">
+  <meta property="og:title" id="og-title" content="">
+  <meta property="og:description" id="og-desc" content="">
+  <meta property="og:image" id="og-image" content="">
+  <meta property="og:type" content="article">
+  <meta property="og:url" id="og-url" content="">
+  <meta name="robots" id="meta-robots" content="index, follow">
+  <link rel="canonical" id="canonical" href="">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">% Calculator</a>
+  <div class="nav-links">
+    <a href="index.html">Calculator</a>
+    <a href="blog.html">Blog</a>
+  </div>
+</nav>
+
+<div class="container" style="max-width:720px">
+  <div id="post-wrap">
+    <p style="color:var(--text-3);font-size:14px;padding:2rem 0">Loading…</p>
+  </div>
+</div>
+
+<script>
+async function loadPost() {
+  const slug = new URLSearchParams(location.search).get('slug');
+  if (!slug) { document.getElementById('post-wrap').innerHTML = '<p style="color:var(--text-3)">Post not found.</p>'; return; }
+  try {
+    const res = await fetch('data/posts.json?t=' + Date.now());
+    const posts = await res.json();
+    const post = posts.find(p => p.slug === slug && p.status === 'published');
+    if (!post) { document.getElementById('post-wrap').innerHTML = '<p style="color:var(--text-3);padding:2rem 0">Post not found. <a href="blog.html">← Back to blog</a></p>'; return; }
+
+    document.getElementById('meta-title').textContent = (post.seo_title || post.title) + ' — Percentage Calculator';
+    document.getElementById('meta-desc').setAttribute('content', post.seo_desc || post.excerpt || '');
+    document.getElementById('og-title').setAttribute('content', post.seo_title || post.title);
+    document.getElementById('og-desc').setAttribute('content', post.seo_desc || post.excerpt || '');
+    if (post.og_image) document.getElementById('og-image').setAttribute('content', post.og_image);
+    const url = 'https://kabeersdev.github.io/percentage_calculator/post.html?slug=' + slug;
+    document.getElementById('og-url').setAttribute('content', url);
+    document.getElementById('canonical').setAttribute('href', url);
+    if (post.robots) document.getElementById('meta-robots').setAttribute('content', post.robots);
+
+    document.getElementById('post-wrap').innerHTML = `
+      <div class="post-content" style="padding:2rem 0">
+        <a href="blog.html" style="font-size:13px;color:var(--text-3)">← Back to blog</a>
+        <h1 style="margin-top:1rem">${post.title}</h1>
+        <div class="post-meta">
+          ${new Date(post.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
+          ${post.author ? ' · ' + post.author : ''}
+        </div>
+        <div class="post-body">${post.content}</div>
+      </div>
+    `;
+  } catch(e) {
+    document.getElementById('post-wrap').innerHTML = '<p style="color:var(--text-3);padding:2rem 0">Could not load post. <a href="blog.html">← Back</a></p>';
+  }
+}
+loadPost();
+</script>
+</body>
+</html>

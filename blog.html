@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Percentage Calculator</title>
+  <meta name="description" content="Tips, guides, and articles about percentages, discounts, VAT, and everyday math.">
+  <meta property="og:title" content="Blog — Percentage Calculator">
+  <meta property="og:url" content="https://kabeersdev.github.io/percentage_calculator/blog.html">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kabeersdev.github.io/percentage_calculator/blog.html">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">% Calculator</a>
+  <div class="nav-links">
+    <a href="index.html">Calculator</a>
+    <a href="blog.html">Blog</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div style="padding: 2rem 0 1.5rem">
+    <h1 style="font-size:26px;font-weight:700;margin-bottom:.25rem">Blog</h1>
+    <p style="color:var(--text-2)">Tips, guides, and articles about percentages and everyday math.</p>
+  </div>
+
+  <div id="post-list">
+    <p style="color:var(--text-3);font-size:14px">Loading posts…</p>
+  </div>
+</div>
+
+<script>
+async function loadPosts() {
+  const list = document.getElementById('post-list');
+  try {
+    const res = await fetch('data/posts.json?t=' + Date.now());
+    const posts = await res.json();
+    const published = posts.filter(p => p.status === 'published').sort((a,b) => new Date(b.date) - new Date(a.date));
+    if (!published.length) { list.innerHTML = '<p style="color:var(--text-3);font-size:14px">No posts yet.</p>'; return; }
+    list.innerHTML = published.map(p => `
+      <div class="post-card">
+        <div class="meta">${new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</div>
+        <h2><a href="post.html?slug=${p.slug}" style="color:var(--text);text-decoration:none">${p.title}</a></h2>
+        <p>${p.excerpt || ''}</p>
+        <a class="read-more" href="post.html?slug=${p.slug}">Read more →</a>
+      </div>
+    `).join('');
+  } catch(e) {
+    list.innerHTML = '<p style="color:var(--text-3);font-size:14px">No posts yet. Check back soon!</p>';
+  }
+}
+loadPosts();
+</script>
+</body>
+</html>
