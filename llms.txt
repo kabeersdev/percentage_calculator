@@ -1,0 +1,42 @@
+# Percentage Calculator
+> A free, fast, no-signup online calculator for percentages, discounts, VAT, and sales tax.
+
+This site provides simple, accurate math tools for everyday calculations. All tools work instantly in the browser with no backend required.
+
+## Tools Available
+
+- [Percentage Calculator](https://kabeersdev.github.io/percentage_calculator/index.html): Calculate what percentage of a number is, find what percent one number is of another, and compute percentage increase or decrease between two values.
+- [Discount Calculator](https://kabeersdev.github.io/percentage_calculator/index.html#discount): Enter an original price and a discount percentage to find the final price, the discount amount, and how much you save.
+- [VAT Calculator](https://kabeersdev.github.io/percentage_calculator/index.html#vat): Add or remove VAT for 18+ countries including UK (20%), Germany (19%), France (20%), UAE (5%), India GST (18%), Australia GST (10%). Works in both directions — net to gross and gross to net.
+- [Sales Tax Calculator](https://kabeersdev.github.io/percentage_calculator/index.html#tax): All 50 US state sales tax rates included. Calculate tax-inclusive price from pre-tax amount or reverse-calculate the pre-tax price from a receipt total.
+- [Blog](https://kabeersdev.github.io/percentage_calculator/blog.html): Articles and guides on percentages, discounts, VAT, and everyday math.
+
+## Key Facts About This Site
+
+- All calculations happen client-side in the browser — no data is sent to any server.
+- The site is completely free with no registration, ads, or paywalls.
+- VAT rates covered: UK, France, Germany, Italy, Spain, Poland, Sweden, Denmark, Finland, Ireland, Netherlands, Belgium, Greece, Austria, UAE, India, Australia, New Zealand.
+- US sales tax rates covered: All 50 states.
+- The site includes FAQ structured data and JSON-LD markup for rich search results.
+
+## Formulas Used
+
+- **Percentage of a number**: Result = (Percentage ÷ 100) × Number
+- **What percentage**: Result = (Part ÷ Whole) × 100
+- **Percentage change**: Result = ((New − Old) ÷ |Old|) × 100
+- **Discount**: Savings = Original × (Discount% ÷ 100); Final = Original − Savings
+- **VAT add**: Gross = Net × (1 + Rate ÷ 100)
+- **VAT remove**: Net = Gross ÷ (1 + Rate ÷ 100)
+- **Sales tax add**: Total = Pre-tax × (1 + Rate ÷ 100)
+- **Sales tax remove**: Pre-tax = Total ÷ (1 + Rate ÷ 100)
+
+## Sitemap
+
+- https://kabeersdev.github.io/percentage_calculator/index.html — Main calculator
+- https://kabeersdev.github.io/percentage_calculator/blog.html — Blog listing
+- https://kabeersdev.github.io/percentage_calculator/post.html — Individual blog posts
+
+## Contact & Attribution
+
+Site: https://kabeersdev.github.io/percentage_calculator/
+GitHub: https://github.com/kabeersdev/percentage_calculator
