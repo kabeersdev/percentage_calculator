@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": "post_1782683453291",
+    "title": "welcome post",
+    "slug": "welcome-post",
+    "excerpt": "",
+    "content": "",
+    "status": "published",
+    "author": "",
+    "date": "2026-06-28",
+    "seo_title": "",
+    "seo_desc": "",
+    "og_image": "",
+    "canonical": "",
+    "robots": "index, follow",
+    "keyword": ""
+  }
+]
